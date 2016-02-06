@@ -7,7 +7,7 @@ if (Test-Path -Path $home/analizer){
 }else{
     Write-Host "Carpeta 'analizer' no existe"
     Write-Host "Creando carpeta ..."
-    New-Item -path "$home" -Name analizer -ItemType directory
+    New-Item -path "$home" -Name analizer -ItemType directory | Out-Null
     Write-Host "Carpeta creada correctamente"
     sleep -s 1
 }
@@ -30,7 +30,7 @@ if (Test-Path -Path $home/analizer/log_ips.txt){
 }else{
     Write-Host "Librería 'log_ips' no existe"
     Write-Host "Creando librería ..."
-    New-Item -path "$home/analizer" -Name log_ips.txt -ItemType file
+    New-Item -path "$home/analizer" -Name log_ips.txt -ItemType file | Out-Null
     Write-Host "Librería creada correctamente"
     sleep -s 1
 }
