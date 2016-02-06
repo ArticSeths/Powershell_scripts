@@ -99,7 +99,7 @@ function analizar{
     [string]$PercA = (($ValSum/$ValMax)*100)
     
     write-host "#----------------Buscando ips-----------------#"
-    write-host ("Rango: "+$ValSum+" --- "+$PercA.Split("{,}")+"%")
+    write-host ("Rango: "+$ValSum+" --- "+$PercA.Split("{.}")[0]+"%")
     write-host "#---------------Ips encontradas---------------#"
     write-host $ips
     $ipcon = [string]$RedFull+[string]$ValSum
