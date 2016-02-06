@@ -1,38 +1,38 @@
-﻿cls
+cls
 Write-Host "Buscando librerías ..."
 
 if (Test-Path -Path $home/analizer){
-Write-Host "Carpeta 'analizer' existe"
-sleep -s 1
+    Write-Host "Carpeta 'analizer' existe"
+    sleep -s 1
 }else{
-Write-Host "Carpeta 'analizer' no existe"
-Write-Host "Creando carpeta ..."
-New-Item -path "$home" -Name analizer -ItemType directory
-Write-Host "Carpeta creada correctamente"
-sleep -s 1
+    Write-Host "Carpeta 'analizer' no existe"
+    Write-Host "Creando carpeta ..."
+    New-Item -path "$home" -Name analizer -ItemType directory
+    Write-Host "Carpeta creada correctamente"
+    sleep -s 1
 }
 
 if (Test-Path -Path $home/analizer/ouilist.txt){
-Write-Host "Librería 'ouilist' existe"
-sleep -s 1
+    Write-Host "Librería 'ouilist' existe"
+    sleep -s 1
 }else{
-Write-Host "Librería 'ouilist' no existe"
-Write-Host "Descargando librería ..."
-$url = 'http://standards.ieee.org/develop/regauth/oui/oui.txt'
-$outfile = "$home/analizer/ouilist.txt"
-Invoke-WebRequest -Uri $url -OutFile $outfile
-Write-Host "Librería descargada correctamente"
-sleep -s 1
+    Write-Host "Librería 'ouilist' no existe"
+    Write-Host "Descargando librería ..."
+    $url = 'http://standards.ieee.org/develop/regauth/oui/oui.txt'
+    $outfile = "$home/analizer/ouilist.txt"
+    Invoke-WebRequest -Uri $url -OutFile $outfile
+    Write-Host "Librería descargada correctamente"
+    sleep -s 1
 }
 if (Test-Path -Path $home/analizer/log_ips.txt){
-Write-Host "Librería 'log_ips' existe"
-sleep -s 1
+    Write-Host "Librería 'log_ips' existe"
+    sleep -s 1
 }else{
-Write-Host "Librería 'log_ips' no existe"
-Write-Host "Creando librería ..."
-New-Item -path "$home/analizer" -Name log_ips.txt -ItemType file
-Write-Host "Librería creada correctamente"
-sleep -s 1
+    Write-Host "Librería 'log_ips' no existe"
+    Write-Host "Creando librería ..."
+    New-Item -path "$home/analizer" -Name log_ips.txt -ItemType file
+    Write-Host "Librería creada correctamente"
+    sleep -s 1
 }
 Write-Host "Cargando script ..."
 sleep -s 2
@@ -42,24 +42,24 @@ $IP = $nic.ipaddress | select-object -first 1
 $ClientMask = $nic.ipsubnet | select-object -first 1
 $IP.Split('.')[0]
 if ($ClientMask.Split('.')[0] -like 255){
-$Ip1 = $IP.Split('.')[0] + "."
+    $Ip1 = $IP.Split('.')[0] + "."
 }else{
-$Ip1 = ""
+    $Ip1 = ""
 }
 if ($ClientMask.Split('.')[1] -like 255){
-$Ip2 = $IP.Split('.')[1] + "."
+    $Ip2 = $IP.Split('.')[1] + "."
 }else{
-$Ip2 = ""
+    $Ip2 = ""
 }
 if ($ClientMask.Split('.')[2] -like 255){
-$Ip3 = $IP.Split('.')[2] + "."
+    $Ip3 = $IP.Split('.')[2] + "."
 }else{
-$Ip3 = ""
+    $Ip3 = ""
 }
 if ($ClientMask.Split('.')[3] -like 255){
-$Ip4 = $IP.Split('.')[3]
+    $Ip4 = $IP.Split('.')[3]
 }else{
-$Ip4 = ""
+    $Ip4 = ""
 }
 $RedFull = $Ip1+$Ip2+$Ip3+$Ip4
 $ValMin = 0
@@ -91,12 +91,15 @@ function info{
 
 function analizar{
     cls
+    $new = ""
+    $new | Out-File -FilePath $ubi
     $ValSum = $ValMin
     while($ValSum -lt $ValMax+1){
     cls
-    $PercA = ($ValSum/$ValMax)*100
+    [string]$PercA = (($ValSum/$ValMax)*100)
+    
     write-host "#----------------Buscando ips-----------------#"
-    write-host ("Rango: "+$ValSum+" --- "+$PercA+"%")
+    write-host ("Rango: "+$ValSum+" --- "+$PercA.Split("{,}")+"%")
     write-host "#---------------Ips encontradas---------------#"
     write-host $ips
     $ipcon = [string]$RedFull+[string]$ValSum
@@ -127,7 +130,7 @@ function equipos {
                 write-host "Estado:" $net.state
                 write-host "Versión de IP:" $net.AddressFamily
                 write-host "Index:" $net.ifindex
-                write-host "Nombre:" $net.CimSystemProperties.ServerName
+                write-host "Nombre:" $net.name
                 write-host "Interface:" $net.InterfaceAlias
                 write-host "Ip:" $net.ipaddress
                 write-host "Mac:" $net.linkLayerAddress
