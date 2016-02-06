@@ -122,35 +122,41 @@ function equipos {
     cls
     write-host "#----------Lista de equipos en red-----------#"
     $outfile = "$home\analizer\ouilist.txt"
+    $pn = 0
     foreach($ips in Get-Content $ubi){
         $IpSlpit=$ips.split(‘,’)[1]
         foreach($net in Get-NetNeighbor){
+        
             if ($net.ipaddress -like $IpSlpit){
-                write-host "-----------------------------------"
-                write-host "Estado:" $net.state
-                write-host "Versión de IP:" $net.AddressFamily
-                write-host "Index:" $net.ifindex
-                write-host "Nombre:" $net.name
-                write-host "Interface:" $net.InterfaceAlias
-                write-host "Ip:" $net.ipaddress
-                write-host "Mac:" $net.linkLayerAddress
-                if ($net.linkLayerAddress -like ""){
-
+                if ($net.linkLayerAddress -like "00-00-00-00-00-00"){
                 }else{
-                    $mac = $net.linkLayerAddress
-                    $spliter = $mac.substring(0,8)
-                    if($spliter -like "00-00-00"){
-            
+                    $pn = $pn +1
+                    write-host "------------------" $pn "------------------"
+                    write-host "Estado:" $net.state
+                    write-host "Versión de IP:" $net.AddressFamily
+                    write-host "Index:" $net.ifindex
+                    write-host "Nombre:" $net.name
+                    write-host "Interface:" $net.InterfaceAlias
+                    write-host "Ip:" $net.ipaddress
+                    write-host "Mac:" $net.linkLayerAddress
+                    if ($net.linkLayerAddress -like ""){
+
                     }else{
-                        if($spliter -like "ff-ff-ff"){
-                
+                        $mac = $net.linkLayerAddress
+                        $spliter = $mac.substring(0,8)
+                        if($spliter -like "00-00-00"){
+            
                         }else{
-                           [string]$content = Get-Content -Path $outfile | Select-String $spliter
-                           write-host "Info:" $content.substring(18)
+                            if($spliter -like "ff-ff-ff"){
+                
+                            }else{
+                               [string]$content = Get-Content -Path $outfile | Select-String $spliter
+                               write-host "Info:" $content.substring(18)
+                            }
                         }
                     }
+                    write-host "---------------------------------------"
                 }
-                write-host "-----------------------------------"
             }
         }
     }
