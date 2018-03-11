@@ -97,7 +97,7 @@ function analizar{
     while($ValSum -lt $ValMax+1){
     cls
     [string]$PercA = (($ValSum/$ValMax)*100)
-    
+
     write-host "#----------------Buscando ips-----------------#"
     write-host ("Rango: "+$ValSum+" --- "+$PercA.Split("{.}")[0]+"%")
     write-host "#---------------Ips encontradas---------------#"
@@ -126,7 +126,7 @@ function equipos {
     foreach($ips in Get-Content $ubi){
         $IpSlpit=$ips.split(‘,’)[1]
         foreach($net in Get-NetNeighbor){
-        
+
             if ($net.ipaddress -like $IpSlpit){
                 if ($net.linkLayerAddress -like "00-00-00-00-00-00"){
                 }else{
@@ -145,10 +145,10 @@ function equipos {
                         $mac = $net.linkLayerAddress
                         $spliter = $mac.substring(0,8)
                         if($spliter -like "00-00-00"){
-            
+
                         }else{
                             if($spliter -like "ff-ff-ff"){
-                
+
                             }else{
                                [string]$content = Get-Content -Path $outfile | Select-String $spliter
                                write-host "Info:" $content.substring(18)
@@ -177,10 +177,10 @@ cls
     Write-host "[3] Información"
     Write-host "[4] Configuración"
     Write-host "[5] Salir"
-    write-host "#------------Por: Diego Alfayate-------------#`n"
+    write-host "#---------------- Por: Seths ----------------#`n"
     [Int]$Menu = read-host "Elija su opción"
     Switch($Menu){
-    
+
       1{analizar}
       2{equipos}
       3{info}

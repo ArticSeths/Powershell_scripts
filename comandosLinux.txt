@@ -1,0 +1,4 @@
+"lsblk" - Listar informacion sobre dispositivos conectados
+"ls -lh" - Mostrar mas informacion de un ls
+"tar -cvpzf backup.tar.gz --exclude=/home/user/backup.tar.gz --one-file-system /" - Backup del sistema completo.
+"mount /dev/sdb1 /media/Disk-D100 -o uid=root,gid=plexServ,umask=002" - Montar disco
